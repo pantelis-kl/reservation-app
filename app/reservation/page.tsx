@@ -8,10 +8,9 @@ const ReservationList = async () => {
     .from("reservations")
     .select("*");
   const { data: barbers } = await supabase.from("barbers").select("*");
-  console.log(barbers)
 
   return (
-    <div className="flex flex-col gap-5 justify-center items-center">
+    <div className="flex flex-col w-full gap-5 justify-center items-center">
       {reservations?.map((r) => (
         <div
           key={r.id}
@@ -44,33 +43,36 @@ const ReservationList = async () => {
                   Phone
                 </p>
                 <h3 className="text-zinc-200">{r.phone}</h3>
+              </div>
+            )}
+            {barbers?.map((b) =>
+              b.id === r.barber_id ? (
+                <div
+                  key={b.id}
+                  className="mt-5 flex items-center gap-4 rounded-xl border border-white/5 bg-zinc-950/50 p-3"
+                >
+                  <div className="overflow-hidden rounded-full border border-zinc-700">
+                    <Image
+                      src={b.profile_path}
+                      alt={`${b.name} profile image`}
+                      width={50}
+                      height={50}
+                      className="h-12 w-12 object-cover"
+                    />
+                  </div>
+
+                  <div className="flex flex-col">
+                    <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">
+                      Barber
+                    </p>
+
+                    <h3 className="text-sm font-semibold text-white">
+                      {b.name}
+                    </h3>
+                  </div>
                 </div>
-                )}
-            {barbers?.map(b =>
-  b.id === r.barber_id ? (
-    <div key={b.id} className="mt-5 flex items-center gap-4 rounded-xl border border-white/5 bg-zinc-950/50 p-3">
-      <div className="overflow-hidden rounded-full border border-zinc-700">
-        <Image
-          src={b.profile_path}
-          alt={`${b.name} profile image`}
-          width={50}
-          height={50}
-          className="h-12 w-12 object-cover"
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">
-          Barber
-        </p>
-
-        <h3 className="text-sm font-semibold text-white">
-          {b.name}
-        </h3>
-      </div>
-    </div>
-  ) : null
-)}
+              ) : null
+            )}
           </div>
         </div>
       ))}
@@ -80,7 +82,8 @@ const ReservationList = async () => {
 
 export default function Reservations() {
   return (
-    <div className="w-full mt-10">
+    <div className="w-full mt-10 flex flex-col gap-5">
+        <h1 className="self-center text-white font-bold text-[3rem]">All Reservations</h1>
       <Suspense fallback={<p>loading</p>}>
         <ReservationList />
       </Suspense>
