@@ -1,6 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { Suspense } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const ReservationList = async () => {
   const supabase = await createClient();
@@ -12,8 +13,11 @@ const ReservationList = async () => {
   return (
     <div className="flex flex-col w-full gap-5 justify-center items-center">
       {reservations?.map((r) => (
+        <Link
+        href={`/reservation/${r.id}`}
+        key={r.id}
+        >
         <div
-          key={r.id}
           className="group flex flex-col w-full max-w-md rounded-2xl border border-white/10 bg-zinc-900/70 p-6 backdrop-blur-xl shadow-lg shadow-black/20 transition-all duration-300 hover:-translate-y-1 hover:border-amber-500/40 hover:bg-zinc-800/80 hover:shadow-xl hover:shadow-amber-500/10"
         >
           <h4 className="text-xs font-medium uppercase tracking-widest text-zinc-500">
@@ -75,6 +79,7 @@ const ReservationList = async () => {
             )}
           </div>
         </div>
+        </Link>
       ))}
     </div>
   );
