@@ -2,6 +2,7 @@ import { createClient } from "@/utils/supabase/server";
 import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { MessageSquare } from "lucide-react";
 
 const ReservationList = async () => {
   const supabase = await createClient();
@@ -16,6 +17,7 @@ const ReservationList = async () => {
         <Link
         href={`/reservation/${r.id}`}
         key={r.id}
+        className="w-full flex items-center justify-center flex-col"
         >
         <div
           className="group flex flex-col w-full max-w-md rounded-2xl border border-white/10 bg-zinc-900/70 p-6 backdrop-blur-xl shadow-lg shadow-black/20 transition-all duration-300 hover:-translate-y-1 hover:border-amber-500/40 hover:bg-zinc-800/80 hover:shadow-xl hover:shadow-amber-500/10"
@@ -48,6 +50,19 @@ const ReservationList = async () => {
                 </p>
                 <h3 className="text-zinc-200">{r.phone}</h3>
               </div>
+            )}
+            {r.comment &&(
+                <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+                  <label className="text-xs font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wide">
+                    Special Instructions
+                  </label>
+                  <div className="flex items-start gap-2 mt-1.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+                    <MessageSquare className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
+                    <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-line">
+                      {r.comment}
+                    </p>
+                  </div>
+                </div>
             )}
             {barbers?.map((b) =>
               b.id === r.barber_id ? (
