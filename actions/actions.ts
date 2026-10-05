@@ -43,8 +43,10 @@ export async function updateReservation(formData:FormData){
 export async function deleteReservation(formData:FormData){
     const supabase=await createClient();
     const id=formData.get("id") as string;
-    await supabase.from("reservations").delete().eq('id',id);
+    const {error:deleteError}=await supabase.from("reservations").delete().eq('id',id);
+    if(deleteError) console.error(deleteError.message)
 
     revalidatePath(`/reservation/${id}`);
+    revalidatePath('/reservation')
     redirect('/reservation');
 }
