@@ -1,4 +1,4 @@
-import { createReservation } from "@/actions/actions";
+import BarberData from "@/components/BarberData";
 import ReservationForms from "@/components/ReservationForms";
 
 
@@ -8,10 +8,7 @@ export default function MakeReservarion() {
       <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-center">
         Make Your Reservation
       </h1>
-
-      <form className="mt-10 w-full max-w-3xl" action={createReservation}>
-          <ReservationForms/>
-      </form>
+      <ReservationForms children={<BarberData/>}/>
     </main>
   );
 }
