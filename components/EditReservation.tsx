@@ -2,6 +2,7 @@ import { updateReservation } from "@/actions/actions";
 import {Edit3,User,Mail,Phone} from "lucide-react"
 import EditBarbers from "./EditBarbers";
 import { Suspense } from "react";
+import EditButton from "./EditButton";
 
 type ReservationProps={
     id:string;
@@ -128,12 +129,7 @@ export default function EditReservation({reservation,barber}:{reservation:Reserv
           >
             Cancel
           </button>
-          <button
-            type="submit"
-            className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 rounded-xl shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
-          >
-            Save Changes
-          </button>
+          <EditButton/>
         </div>
       </form>
     </div>
