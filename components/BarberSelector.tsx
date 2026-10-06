@@ -36,7 +36,7 @@ export default function BarberSelector({barbers}:{barbers:Barber[]}){
                           <div className="flex justify-center">
                             <div className="overflow-hidden rounded-full border-2 border-zinc-700 transition-all duration-300 group-hover:border-amber-500/70 group-hover:shadow-lg group-hover:shadow-amber-500/20">
                               <Image
-                                alt="Alex profile image"
+                                alt="Barber profile image"
                                 width={100}
                                 height={100}
                                 src={b.profile_path}

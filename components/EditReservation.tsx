@@ -1,7 +1,8 @@
+"use client"
 import { updateReservation } from "@/actions/actions";
 import {Edit3,User,Mail,Phone} from "lucide-react"
 import EditBarbers from "./EditBarbers";
-import { Suspense } from "react";
+import React, { Suspense, useActionState } from "react";
 import EditButton from "./EditButton";
 
 type ReservationProps={
@@ -14,14 +15,9 @@ type ReservationProps={
     barber_id:string;
 }
 
-type BarberProps={
-    id:string;
-    name:string;
-    profile_path:string;
-    trait:string;
-}
+export default function EditReservation({reservation,children}:{reservation:ReservationProps,children:React.ReactNode}){
 
-export default function EditReservation({reservation,barber}:{reservation:ReservationProps,barber:BarberProps}){
+  const [state,formData]=useActionState(updateReservation,{errors:{}});
 
     return (
     <div className="w-full max-w-lg mx-auto rounded-2xl border border-slate-200/80 bg-white p-6 shadow-xl dark:border-slate-800 dark:bg-slate-900 transition-all">
@@ -39,7 +35,7 @@ export default function EditReservation({reservation,barber}:{reservation:Reserv
         </div>
       </div>
       <form className="space-y-4"
-      action={updateReservation}
+      action={formData}
       >
         <input type="hidden" name="id" value={reservation.id} />
         <div className="flex flex-row gap-3">
@@ -61,6 +57,9 @@ export default function EditReservation({reservation,barber}:{reservation:Reserv
               className="w-full pl-10 pr-4 py-2.5 text-sm rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-indigo-500 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 dark:border-slate-800 dark:bg-slate-950/50 dark:text-slate-100 dark:focus:bg-slate-900 dark:focus:border-indigo-400 dark:focus:ring-indigo-400/10 transition-all duration-200"
             />
           </div>
+           {state.errors.first_name && (
+              <p className="text-red-600/60 text-sm">{state.errors.first_name}</p>
+            )}
         </div>
         <div className="flex flex-col gap-1.5">
             <label htmlFor="last_name"
@@ -79,6 +78,9 @@ export default function EditReservation({reservation,barber}:{reservation:Reserv
               className="w-full pl-10 pr-4 py-2.5 text-sm rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-indigo-500 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 dark:border-slate-800 dark:bg-slate-950/50 dark:text-slate-100 dark:focus:bg-slate-900 dark:focus:border-indigo-400 dark:focus:ring-indigo-400/10 transition-all duration-200"
             />
             </div>
+             {state.errors.last_name && (
+              <p className="text-red-600/60 text-sm">{state.errors.last_name}</p>
+            )}
         </div>
         </div>
         <div className="flex flex-col gap-1.5">
@@ -98,6 +100,9 @@ export default function EditReservation({reservation,barber}:{reservation:Reserv
                 className="w-full pl-10 pr-4 py-2.5 text-sm rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-indigo-500 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 dark:border-slate-800 dark:bg-slate-950/50 dark:text-slate-100 dark:focus:bg-slate-900 dark:focus:border-indigo-400 dark:focus:ring-indigo-400/10 transition-all duration-200"
                 />
              </div>
+              {state.errors.email && (
+              <p className="text-red-600/60 text-sm">{state.errors.email}</p>
+            )}
          </div>
          {reservation.phone && (
             <div className="flex flex-col gap-1.5">
@@ -120,7 +125,10 @@ export default function EditReservation({reservation,barber}:{reservation:Reserv
          </div>
          )}
          <Suspense fallback={<p>loading</p>}>
-           <EditBarbers barberId={reservation.barber_id}/>
+           {children}
+            {state.errors.barber_id && (
+              <p className="text-red-600/60 text-sm">{state.errors.barber_id}</p>
+            )}
          </Suspense>
         <div className="flex items-center justify-center gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
           <button

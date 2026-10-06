@@ -18,12 +18,12 @@ export default function LoadingBarbers() {
                 </div>
               </div>
               <h3 className="mt-4 w-25 text-lg">
-                    <Skeleton/>
-               </h3>
-               <p className="mt-1 text-center w-40 text-zinc-400">
-                    <Skeleton/>
-                </p>
-                <div className="mx-auto mt-4 h-px w-10 bg-zinc-700 transition-all duration-300 group-hover:w-16 group-hover:bg-amber-500" />
+                <Skeleton />
+              </h3>
+              <p className="mt-1 text-center w-40 text-zinc-400">
+                <Skeleton />
+              </p>
+              <div className="mx-auto mt-4 h-px w-10 bg-zinc-700 transition-all duration-300 group-hover:w-16 group-hover:bg-amber-500" />
             </div>
           </SkeletonTheme>
         ))}
