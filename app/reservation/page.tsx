@@ -3,13 +3,15 @@ import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { MessageSquare } from "lucide-react";
+import DeleteReservations from "@/components/DeleteReservations";
+import LoadingReservations from "@/components/LoadingReservations";
 
 const ReservationList = async () => {
   const supabase = await createClient();
   const { data: reservations } = await supabase
     .from("reservations")
     .select("*");
-  const { data: barbers } = await supabase.from("barbers").select("*");
+  const { data: barbers } = await supabase.from("barbers").select("*").order("created_at", { ascending: true });
 
   return (
     <div className="flex flex-col w-full gap-5 justify-center items-center">
@@ -25,13 +27,10 @@ const ReservationList = async () => {
           <h4 className="text-xs font-medium uppercase tracking-widest text-zinc-500">
             Customer
           </h4>
-
           <h3 className="mt-2 text-xl font-semibold tracking-tight text-white transition-colors duration-300 group-hover:text-amber-400">
             {r.first_name} {r.last_name}
           </h3>
-
           <div className="mt-5 h-px w-full bg-white/5" />
-
           <h4 className="mt-4 text-sm font-medium text-zinc-500">
             Reservation
           </h4>
@@ -42,7 +41,6 @@ const ReservationList = async () => {
               </p>
               <h3 className="text-zinc-200">{r.email}</h3>
             </div>
-
             {r.phone && (
               <div className="flex flex-col gap-1">
                 <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">
@@ -79,12 +77,10 @@ const ReservationList = async () => {
                       className="h-12 w-12 object-cover"
                     />
                   </div>
-
                   <div className="flex flex-col">
                     <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">
                       Barber
                     </p>
-
                     <h3 className="text-sm font-semibold text-white">
                       {b.name}
                     </h3>
@@ -93,6 +89,7 @@ const ReservationList = async () => {
               ) : null
             )}
           </div>
+          <DeleteReservations id={r.id}/>
         </div>
         </Link>
       ))}
@@ -104,7 +101,7 @@ export default function Reservations() {
   return (
     <div className="w-full mt-10 flex flex-col gap-5">
         <h1 className="self-center text-white font-bold text-[3rem]">All Reservations</h1>
-      <Suspense fallback={<p>loading</p>}>
+      <Suspense fallback={<LoadingReservations/>}>
         <ReservationList />
       </Suspense>
     </div>
