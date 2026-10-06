@@ -1,4 +1,5 @@
 import DeleteReservation from "@/components/DeleteReservation";
+import EditBarbers from "@/components/EditBarbers";
 import EditReservation from "@/components/EditReservation";
 import { createClient } from "@/utils/supabase/server";
 import {
@@ -131,7 +132,7 @@ export default async function ReservationDetails({
       </div>
       <DeleteReservation id={reservation.id}/>
     </div>
-    <EditReservation reservation={reservation} barber={barber}/>
+    <EditReservation reservation={reservation} children={<EditBarbers barberId={reservation.barber_id}/>}/>
     </>
   );
 }
